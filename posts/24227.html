@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>多线程 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一 进程和多线程简介1.1 相关概念   何为线程？线程与进程相似，但线程是一个比进程更小的执行单位。一个进程在其执行的过程中可以产生多个线程。与进程不同的是同类的多个线程共享同一块内存空间和一组系统资源，所以系统在产生一个线程，或是在各个线程之间作切换工作时，负担要比进程小得多，也正因为如此，线程也被称为轻量级进程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="多线程">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;posts&#x2F;24227.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一 进程和多线程简介1.1 相关概念   何为线程？线程与进程相似，但线程是一个比进程更小的执行单位。一个进程在其执行的过程中可以产生多个线程。与进程不同的是同类的多个线程共享同一块内存空间和一组系统资源，所以系统在产生一个线程，或是在各个线程之间作切换工作时，负担要比进程小得多，也正因为如此，线程也被称为轻量级进程。">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2019-12-24T14:19:02.360Z">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-关于多线程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/posts/24227.html" class="article-date">
+  <time datetime="2019-11-22T02:47:34.000Z" itemprop="datePublished">2019-11-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      多线程
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一-进程和多线程简介"><a href="#一-进程和多线程简介" class="headerlink" title="一 进程和多线程简介"></a><strong>一 进程和多线程简介</strong></h2><h3 id="1-1-相关概念"><a href="#1-1-相关概念" class="headerlink" title="1.1 相关概念"></a><strong>1.1 相关概念</strong></h3><p>   何为线程？<br>线程与进程相似，但线程是一个比进程更小的执行单位。一个进程在其执行的过程中可以产生多个线程。与进程不同的是同类的多个线程共享同一块内存空间和一组系统资源，所以系统在产生一个线程，或是在各个线程之间作切换工作时，负担要比进程小得多，也正因为如此，线程也被称为轻量级进程。</p>
+<a id="more"></a>
+<p>   何为进程？<br>进程是程序的一次执行过程，是系统运行程序的基本单位，因此进程是动态的。系统运行一个程序即是一个进程从创建，运行到消亡的过程。简单来说，一个进程就是一个执行中的程序，它在计算机中一个指令接着一个指令地执行着，同时，每个进程还占有某些系统资源如CPU时间，内存空间，文件，文件，输入输出设备的使用权等等。换句话说，当程序在执行时，将会被操作系统载入内存中。</p>
+<p>   进程与线程有何不同？<br>线程是进程划分成的更小的运行单位。线程和进程最大的不同在于基本上各进程是独立的，而各线程则不一定，因为同一进程中的线程极有可能会相互影响。从另一角度来说，进程属于操作系统的范畴，主要是同一段时间内，可以同时执行一个以上的程序，而线程则是在同一程序内几乎同时执行一个以上的程序段。</p>
+<h3 id="1-2-多线程"><a href="#1-2-多线程" class="headerlink" title="1.2 多线程"></a><strong>1.2 多线程</strong></h3><p>   何为多线程？<br>多线程就是几乎同时执行多个线程（一个处理器在某一个时间点上永远都只能是一个线程！即使这个处理器是多核的，除非有多个处理器才能实现多个线程同时运行。）。几乎同时是因为实际上多线程程序中的多个线程实际上是一个线程执行一会然后其他的线程再执行，并不是很多书籍所谓的同时执行。</p>
+<p>   为什么多线程是必要的？<br>1.使用线程可以把占据长时间的程序中的任务放到后台去处理<br>2.用户界面可以更加吸引人，这样比如用户点击了一个按钮去触发某些事件的处理，可以弹出一个进度条来显示处理的进度<br>3.程序的运行速度可能加快</p>
+<h2 id="二-使用多线程"><a href="#二-使用多线程" class="headerlink" title="二 使用多线程"></a><strong>二 使用多线程</strong></h2><h3 id="2-1继承Thread类"><a href="#2-1继承Thread类" class="headerlink" title="2.1继承Thread类"></a><strong>2.1继承Thread类</strong></h3><p>MyThread.java<br>  public class MyThread extends Thread {<br>    @Override<br>    public void run() {<br>        super.run();<br>        System.out.println(“MyThread”);<br>    }<br>  }</p>
+<p>Run.java<br>  public class Run {</p>
+<pre><code>public static void main(String[] args) {
+    MyThread mythread = new MyThread();
+    mythread.start();
+    System.out.println(&quot;运行结束&quot;);
+}</code></pre><p>  }</p>
+<p>运行结果：<br>             运行结束<br>             MyThread</p>
+<p>从上面的运行结果可以看出：线程是一个子任务，CPU以不确定的方式，或者说是以随机的时间来调用线程中的run方法。</p>
+<h3 id="2-2实现Runnable接口"><a href="#2-2实现Runnable接口" class="headerlink" title="2.2实现Runnable接口"></a><strong>2.2实现Runnable接口</strong></h3><p>推荐实现Runnable接口方式开发多线程，因为Java单继承但是可以实现多个接口。</p>
+<p>MyRunnable.java<br>  public class MyRunnable implements Runnable {<br>    @Override<br>    public void run() {<br>        System.out.println(“MyRunnable”);<br>    }<br>  }</p>
+<p>Run.java<br>  public class Run {</p>
+<pre><code>public static void main(String[] args) {
+    Runnable runnable=new MyRunnable();
+    Thread thread=new Thread(runnable);
+    thread.start();
+    System.out.println(&quot;运行结束！&quot;);
+}</code></pre><p>  }</p>
+<p>运行结果：<br>             运行结束！<br>             MyRunnable</p>
+<h2 id="三-实例变量和线程安全"><a href="#三-实例变量和线程安全" class="headerlink" title="三 实例变量和线程安全"></a><strong>三 实例变量和线程安全</strong></h2><p>定义线程类中的实例变量针对其他线程可以有共享和不共享之分</p>
+<h3 id="3-1-不共享数据的情况"><a href="#3-1-不共享数据的情况" class="headerlink" title="3.1 不共享数据的情况"></a><strong>3.1 不共享数据的情况</strong></h3><p>MyThread.java<br>  public class MyThread extends Thread {</p>
+<pre><code>private int count = 5;
+
+public MyThread(String name) {
+    super();
+    this.setName(name);
+}
+
+@Override
+public void run() {
+    super.run();
+    while (count &gt; 0) {
+        count--;
+        System.out.println(&quot;由 &quot; + MyThread.currentThread().getName()
+                + &quot; 计算，count=&quot; + count);
+    }
+}</code></pre><p>  }</p>
+<p>Run.java<br>  public class Run {<br>    public static void main(String[] args) {<br>        MyThread a = new MyThread(“A”);<br>        MyThread b = new MyThread(“B”);<br>        MyThread c = new MyThread(“C”);<br>        a.start();<br>        b.start();<br>        c.start();<br>    }<br>  }</p>
+<p>运行结果：<br>              由C计算，count=4<br>              由C计算，count=3<br>              由C计算，count=2<br>              由C计算，count=1<br>              由C计算，count=0<br>              由A计算，count=4<br>              由B计算，count=4<br>              由B计算，count=3<br>              由B计算，count=2<br>              由A计算，count=3<br>              由A计算，count=2<br>              由B计算，count=1<br>              由B计算，count=0<br>              由A计算，count=1<br>              由A计算，count=0</p>
+<p>可以看出每个线程都有一个属于自己的实例变量count，它们之间互不影响。我们再来看看另一种情况。</p>
+<h3 id="3-2-共享数据的情况"><a href="#3-2-共享数据的情况" class="headerlink" title="3.2 共享数据的情况"></a><strong>3.2 共享数据的情况</strong></h3><p>MyThread。java<br>  public class MyThread extends Thread {</p>
+<pre><code>private int count = 5;
+
+@Override
+ public void run() {
+    super.run();
+    count--;
+    System.out.println(&quot;由 &quot; + MyThread.currentThread().getName() + &quot; 计算，count=&quot; + count);
+}</code></pre><p>  }</p>
+<p>Run.java<br>  public class Run {<br>    public static void main(String[] args) {</p>
+<pre><code>    MyThread mythread=new MyThread();
+    //下列线程都是通过mythread对象创建的
+    Thread a=new Thread(mythread,&quot;A&quot;);
+    Thread b=new Thread(mythread,&quot;B&quot;);
+    Thread c=new Thread(mythread,&quot;C&quot;);
+    Thread d=new Thread(mythread,&quot;D&quot;);
+    Thread e=new Thread(mythread,&quot;E&quot;);
+    a.start();
+    b.start();
+    c.start();
+    d.start();
+    e.start();
+}</code></pre><p>  }</p>
+<p>运行结果：<br>              由A计算，count=4<br>              由D计算，count=0<br>              由E计算，count=1<br>              由B计算，count=2<br>              由C计算，count=2              </p>
+<p>可以看出这里已经出现了错误，我们想要的是依次递减的结果。为什么呢？？</p>
+<p>因为在大多数jvm中，count–的操作分为如下下三步：</p>
+<p>1.取得原有count值<br>2.计算i -1<br>3.对i进行赋值</p>
+<p>所以多个线程同时访问时出现问题就是难以避免的了。</p>
+<p>在run方法前加上synchronized关键字即可得到正确答案。</p>
+<p>加上关键字后的运行结果：<br>              由A计算，count=4<br>              由D计算，count=3<br>              由E计算，count=2<br>              由B计算，count=1<br>              由C计算，count=0</p>
+<h2 id="四-一些常用方法"><a href="#四-一些常用方法" class="headerlink" title="四 一些常用方法"></a><strong>四 一些常用方法</strong></h2><h3 id="4-1-currentThread"><a href="#4-1-currentThread" class="headerlink" title="4.1 currentThread()"></a><strong>4.1 currentThread()</strong></h3><p>返回对当前正在执行的线程对象的引用。</p>
+<h3 id="4-2-getId"><a href="#4-2-getId" class="headerlink" title="4.2 getId()"></a><strong>4.2 getId()</strong></h3><p>返回此线程的标识符</p>
+<h3 id="4-3-getName"><a href="#4-3-getName" class="headerlink" title="4.3 getName()"></a><strong>4.3 getName()</strong></h3><p>返回此线程的名称</p>
+<h3 id="4-4-getPriority"><a href="#4-4-getPriority" class="headerlink" title="4.4 getPriority()"></a><strong>4.4 getPriority()</strong></h3><p>返回此线程的优先级</p>
+<h3 id="4-5-isAlive"><a href="#4-5-isAlive" class="headerlink" title="4.5 isAlive()"></a><strong>4.5 isAlive()</strong></h3><p>测试这个线程是否还处于活动状态。</p>
+<p>什么是活动状态呢？</p>
+<p>活动状态就是线程已经启动且尚未终止。线程处于正在运行或准备运行的状态。</p>
+<h3 id="4-6-sleep-long-millis"><a href="#4-6-sleep-long-millis" class="headerlink" title="4.6 sleep(long millis)"></a><strong>4.6 sleep(long millis)</strong></h3><p>使当前正在执行的线程以指定的毫秒数“休眠”（暂时停止执行），具体取决于系统定时器和调度程序的精度和准确性。</p>
+<h3 id="4-7-interrupt"><a href="#4-7-interrupt" class="headerlink" title="4.7 interrupt()"></a><strong>4.7 interrupt()</strong></h3><p>中断这个线程。</p>
+<h3 id="4-8-interrupted-和isInterrupted"><a href="#4-8-interrupted-和isInterrupted" class="headerlink" title="4.8 interrupted() 和isInterrupted()"></a><strong>4.8 interrupted() 和isInterrupted()</strong></h3><p>interrupted()：测试当前线程是否已经是中断状态，执行后具有将状态标志清除为false的功能</p>
+<p>isInterrupted()： 测试线程Thread对相关是否已经是中断状态，但部清楚状态标志</p>
+<h3 id="4-9-setName-String-name"><a href="#4-9-setName-String-name" class="headerlink" title="4.9 setName(String name)"></a><strong>4.9 setName(String name)</strong></h3><p>将此线程的名称更改为等于参数 name 。</p>
+<h3 id="4-10-isDaemon"><a href="#4-10-isDaemon" class="headerlink" title="4.10 isDaemon()"></a><strong>4.10 isDaemon()</strong></h3><p>测试这个线程是否是守护线程。</p>
+<h3 id="4-11-setDaemon-boolean-on"><a href="#4-11-setDaemon-boolean-on" class="headerlink" title="4.11 setDaemon(boolean on)"></a><strong>4.11 setDaemon(boolean on)</strong></h3><p>将此线程标记为 daemon线程或用户线程。</p>
+<h3 id="4-12-join"><a href="#4-12-join" class="headerlink" title="4.12 join()"></a><strong>4.12 join()</strong></h3><p>在很多情况下，主线程生成并起动了子线程，如果子线程里要进行大量的耗时的运算，主线程往往将于子线程之前结束，但是如果主线程处理完其他的事务后，需要用到子线程的处理结果，也就是主线程需要等待子线程执行完成之后再结束，这个时候就要用到join()方法了。</p>
+<p>join()的作用是：“等待该线程终止”，这里需要理解的就是该线程是指的主线程等待子线程的终止。也就是在子线程调用了join()方法后面的代码，只有等到子线程结束了才能执行</p>
+<h3 id="4-13-yield"><a href="#4-13-yield" class="headerlink" title="4.13 yield()"></a><strong>4.13 yield()</strong></h3><p>yield()方法的作用是放弃当前的CPU资源，将它让给其他的任务去占用CPU时间。注意：放弃的时间不确定，可能一会就会重新获得CPU时间片。</p>
+<h3 id="4-14-setPriority-int-newPriority"><a href="#4-14-setPriority-int-newPriority" class="headerlink" title="4.14 setPriority(int newPriority)"></a><strong>4.14 setPriority(int newPriority)</strong></h3><p>更改此线程的优先级</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/posts/24227.html" data-id="ck4ldhym7000178i41yrp0vvo" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/posts/53685.html" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          spring学习
+        
+      </div>
+    </a>
+  
+  
+    <a href="/posts/16107.html" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/12/">December 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/11/">November 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/posts/23133.html">消息队列基础</a>
+          </li>
+        
+          <li>
+            <a href="/posts/53685.html">spring学习</a>
+          </li>
+        
+          <li>
+            <a href="/posts/24227.html">多线程</a>
+          </li>
+        
+          <li>
+            <a href="/posts/16107.html">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="https://cdn.bootcss.com/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
