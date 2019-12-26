@@ -85,84 +85,15 @@
       
         <p>##<strong>SpringBoot缓存问题</strong></p>
 <p>###<strong>SpringBoot缓存问题</strong><br>缓存在实际开发中肯定会遇到的，为了减轻数据库的压力，很多的项目都使用了缓存来达到数据快速访问，可以给用户达到良好的体验。不然，客户一个请求响应半天，谁受得了。</p>
-<p>但是,很多人在使用缓存中，会遇到缓存带来的麻烦。比如：数据库查询出来的数据和缓存数据不一致的问题。就是缓存滞后的问题导致的。</p>
-<p>###<strong>开启缓存</strong><br>缓存的使用很简单，只需要在主类上加上@EnableCaching注解即可开启。<br>@SpringBootApplication<br>@EnableAutoConfiguration<br>@EnableCaching<br>public class SpringbootcacheApplication {</p>
-<pre><code>public static void main(String[] args) {
-    SpringApplication.run(SpringbootcacheApplication.class, args);
-}</code></pre><p>}<br>只有在这里开启注解，后面才可以使用缓存，否则无效的。</p>
-<p>###<strong>具体注解</strong></p>
-<p>@CacheConfig<br>@CacheConfig全局配置缓存，这个只需要配置到类上，就可以不需要二次配置，接收一个缓存的名字cacheNames。这里定义了缓存名字，其他地方就自动使用该缓存名字进行缓存。</p>
-<p>@Cacheable<br>主要缓存注解。这个注解就是起到缓存查询不到，自动到数据库查询的功能效果。属性：cacheNames:缓存名字，condtion：缓存的条件，unless:不缓存的条件。缓存内部实现也是一个key value的形式。指定了key，就以key作为建进行缓存处理。</p>
-<p>@CacheEvict<br>这个注解主要是清除缓存用的。我可以在更新，删除的时候，进行注解删除缓存。可以指定key和condition。这个key和@Cacheable里面的key保持一致 ，就可以删除对应的缓存。</p>
-<p>###<strong>实际使用缓存</strong><br>@Service<br>@CacheConfig(cacheNames = “articleCache”)<br>public class ArticleService {</p>
-<pre><code>private AtomicInteger count =new AtomicInteger(0);
-
-@Autowired
-private ArticleMapper articleMapper;
-
-
-/**
- * 增加一篇文章 每次就进行缓存
- * @return
- */
-@CachePut
-public Integer addArticle(Article article){
-    Integer result = articleMapper.addArticle(article.getTitle(), article.getAuthor(), article.getContent(), article.getFileName());
-    if (result&gt;0) {
-        Integer lastInertId = articleMapper.getLastInertId();
-        System.out.println(&quot;--执行增加操作--id:&quot; + lastInertId);
-    }
-    return result;
-}
-
-/**
- * 获取文章  以传入的id为键，当state为0的时候不进行缓存
- * @param id 文章id
- * @return
- */
-@Cacheable(key = &quot;#id&quot;,unless = &quot;#result.state==0&quot;)
-public Article getArticle(Integer id) {
-    try {
-        //模拟耗时操作
-        Thread.sleep(5000);
-    } catch (InterruptedException e) {
-        e.printStackTrace();
-    }
-    final Article artcile = articleMapper.getArticleById(id);
-    System.out.println(&quot;--执行数据库查询操作&quot;+count.incrementAndGet()+&quot;次&quot;+&quot;id:&quot;+id);
-    return artcile;
-}
-
-/**
- * 通过id更新内容 清除以id作为键的缓存
- *
- * @param id
- * @return
- */
-@CacheEvict(key = &quot;#id&quot;)
-public Integer updateContentById(String contetnt, Integer id) {
-    Integer result = articleMapper.updateContentById(contetnt, id);
-    System.out.println(&quot;--执行更新操作id:--&quot;+id);
-    return result;
-}
-
-/**
- * 通过id移除文章
- * @param id  清除以id作为键的缓存
- * @return
- */
-@CacheEvict(key = &quot;#id&quot;)
-public Integer removeArticleById(Integer id){
-    final Integer result = articleMapper.removeArticleById(id);
-    System.out.println(&quot;执行删除操作,id:&quot;+id);
-    return result;
-}</code></pre><p>}</p>
-<p>这里缓存加在service层来实现，具体的实现都是key为id作为建来保存，然后根据key来更新删除缓存。</p>
-
+        
+          <p class="article-more-link">
+            <a href="/posts/5474.html#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/posts/5474.html" data-id="ck4mr76me0001e4i416o34p8o" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/posts/5474.html" data-id="ck4mr7u1z0002ewi43m3zfte0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -204,7 +135,7 @@ public Integer removeArticleById(Integer id){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/posts/4780.html" data-id="ck4mr76m30000e4i44pnnav7c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/posts/4780.html" data-id="ck4mr7u1h0000ewi4g6uj6gsr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -246,7 +177,7 @@ public Integer removeArticleById(Integer id){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/posts/23133.html" data-id="ck4mr76mu0005e4i4e0p3agbe" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/posts/23133.html" data-id="ck4mr7u2b0005ewi4ez3ihb5n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -288,7 +219,7 @@ public Integer removeArticleById(Integer id){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/posts/53685.html" data-id="ck4mr76mn0003e4i47j8gglfy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/posts/53685.html" data-id="ck4mr7u240003ewi47fjh1ry0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -329,7 +260,7 @@ public Integer removeArticleById(Integer id){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/posts/24227.html" data-id="ck4mr76mr0004e4i43z679pu5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/posts/24227.html" data-id="ck4mr7u270004ewi4gn9dezru" class="article-share-link">Share</a>
       
       
     </footer>
@@ -370,7 +301,7 @@ public Integer removeArticleById(Integer id){
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/posts/16107.html" data-id="ck4mr76mj0002e4i41fvb7hpt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/posts/16107.html" data-id="ck4mr7u1u0001ewi471kl5sll" class="article-share-link">Share</a>
       
       
     </footer>
